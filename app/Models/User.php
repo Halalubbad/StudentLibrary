@@ -17,6 +17,17 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    public function university()
+    {
+        return $this->belongsTo(University::class, 'university_id', 'id');
+    }
+
+    public function slides()
+    {
+        return $this->hasMany(Slide::class, 'user_id', 'id');
+    }
+
     protected $fillable = [
         'name',
         'email',

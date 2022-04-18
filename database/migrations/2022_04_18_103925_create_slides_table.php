@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('year');
             $table->string('level');
             $table->string('semester');
+            $table->string('image_src');
             $table->string('slide_file');
             $table->integer('rate');
             $table->timestamps();
