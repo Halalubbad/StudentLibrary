@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/ss', function () {
+    return view('s_library.parent');
 });
+
+// Route::prefix('/')->group(function () {
+//     return view('s_library.parent');
+// });
