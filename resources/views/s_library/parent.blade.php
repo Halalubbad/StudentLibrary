@@ -66,6 +66,9 @@
               <li class="nav-item @@contact">
                 <a class="nav-link" href="contact.html">CONTACT</a>
               </li>
+              <li class="nav-item @@contact">
+                <a class="nav-link" href="{{route('user.logout')}}">LOGOUT</a>
+              </li>
             </ul>
           </div>
         </nav>

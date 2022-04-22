@@ -17,7 +17,15 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME ='user/home';
+    // public /const HOME ='/edu/user/login';
+    
+
+    // public function homeRedirectTo(Request $request){
+    //     if($request->guard == 'user'){
+
+    //     }
+    // }
 
     /**
      * Define your route model bindings, pattern filters, etc.
