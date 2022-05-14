@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\AuthController;
-use App\Http\Controllers\auth\loginAdminController;
-use App\Http\Controllers\auth\loginUserController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
@@ -27,31 +25,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::prefix('admin/')->group(function(){
-//     Route::get('login',[loginAdminController::class , 'showLoginView'])->name('admin.login');
-//     Route::post('login',[loginAdminController::class, 'login']);
-
-// });
-
-// Route::prefix('edu/user/')->group(function(){
-    // Route::get('edit-password', [loginUserController::class, 'editPassword'])->name('password.u_edit');
-    // Route::put('update-password', [loginUserController::class, 'updatePassword']);
-    
-    // Route::get('logout' , [loginUserController::class , 'logout'])->name('user.logout');
-// });
-
-// Route::get('/user/home', function () {
-//     return view('s_library.user.home');
-// })->middleware('auth:user')->name('user.home');
-
-// Route::get('/admin/home', function () {
-//     return view('s_library.admin.adminHome');
-// })->middleware('auth:admin');
-
-
-
-// *********************************
 
 
 Route::prefix('edu/')->middleware('guest:user,admin')->group(function () {
