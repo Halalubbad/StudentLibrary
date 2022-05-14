@@ -3,7 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Faculity;
+use App\Models\Slide;
+use App\Models\University;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
@@ -12,9 +20,14 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        // dd('index');
+
+        $admins = Admin::with('roles')->get();
+        // dd($admins[0]->roles[0]->name);
+        return response()->view('s_library.admin.admins.index',['admins'=>$admins]);
     }
 
     /**
@@ -25,6 +38,8 @@ class AdminController extends Controller
     public function create()
     {
         //
+        $roles = Role::where('guard_name', '=', 'admin')->get();
+        return response()->view('s_library.admin.admins.create', ['roles' => $roles]);
     }
 
     /**
@@ -36,6 +51,32 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         //
+        // dd('store');
+        $validator = Validator($request->all(), [
+            'name' => 'required|string|min:3',
+            'email' => 'required|email|unique:admins,email',
+            'role_id' => 'required|numeric|exists:roles,id',
+        ]);
+
+        if (!$validator->fails()) {
+            $admin = new Admin();
+            $admin->name = $request->input('name');
+            $admin->email = $request->input('email');
+            $admin->password = Hash::make(12345);
+            
+            $isSaved = $admin->save();
+            if ($isSaved) $admin->assignRole(Role::findOrFail($request->input('role_id')));
+            
+            return response()->json(
+                ['message' => $isSaved ? 'Saved successfully' : 'Save failed!'],
+                $isSaved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST
+            );
+        } else {
+            return response()->json(
+                ['message' => $validator->getMessageBag()->first()],
+                Response::HTTP_BAD_REQUEST,
+            );
+        }
     }
 
     /**
@@ -58,6 +99,8 @@ class AdminController extends Controller
     public function edit(Admin $admin)
     {
         //
+        $roles = Role::where('guard_name', '=', 'admin')->get();
+        return response()->view('s_library.admin.admins.edit',['admin' => $admin , 'roles' => $roles]);
     }
 
     /**
@@ -70,6 +113,28 @@ class AdminController extends Controller
     public function update(Request $request, Admin $admin)
     {
         //
+        $validator = Validator($request->all(), [
+            'name' => 'required|string|min:3',
+            'email' => 'required|email|unique:admins,email,' . $admin->id,
+            'role_id' => 'required|numeric|exists:roles,id',
+        ]);
+
+        if (!$validator->fails()) {
+            $admin->name = $request->input('name');
+            $admin->email = $request->input('email');
+            $isSaved = $admin->save();
+            if ($isSaved) $admin->syncRoles(Role::findOrFail($request->input('role_id')));
+            
+            return response()->json(
+                ['message' => $isSaved ? 'Saved successfully' : 'Save failed!'],
+                $isSaved ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST
+            );
+        } else {
+            return response()->json(
+                ['message' => $validator->getMessageBag()->first()],
+                Response::HTTP_BAD_REQUEST,
+            );
+        }
     }
 
     /**
@@ -81,5 +146,10 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         //
+        $deleted = $admin->delete();
+        return response()->json(
+            ['message' => $deleted ? 'Deleted successfully' : 'Delete failed!'],
+            $deleted ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST
+        );
     }
 }

@@ -2,19 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Faculty;
+use App\Models\Faculity;
+use App\Models\Slide;
+use App\Models\University;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class FacultyController extends Controller
+class UserHomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        // dd('userHome');
+        $users = User::with('university')->get();
+        $universities = University::all();
+        $universitiesCount = University::count();
+        $faculitiesCount = Faculity::count();
+        $usersCount = User::count();
+        $slidesCount = Slide::count();
+        return Response()->view('s_library.user.home',
+            ['users' => $users ,
+            'universitiesCount' => $universitiesCount, 
+            'faculitiesCount' => $faculitiesCount, 
+            'usersCount' => $usersCount, 
+            'slidesCount' => $slidesCount,
+            'universities' => $universities,'request' =>$request]);
     }
 
     /**
@@ -41,10 +58,10 @@ class FacultyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Faculty  $faculty
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Faculty $faculty)
+    public function show(User $user)
     {
         //
     }
@@ -52,10 +69,10 @@ class FacultyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Faculty  $faculty
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Faculty $faculty)
+    public function edit(User $user)
     {
         //
     }
@@ -64,10 +81,10 @@ class FacultyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Faculty  $faculty
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Faculty $faculty)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -75,10 +92,10 @@ class FacultyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Faculty  $faculty
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Faculty $faculty)
+    public function destroy(User $user)
     {
         //
     }

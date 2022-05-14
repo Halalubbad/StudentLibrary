@@ -24,10 +24,14 @@ class Authenticate extends Middleware
         // return route('user.login');
         // }
         
-        if(Auth::guard('user')){
-            return route('user.login');
-        }else{
-            return route('admin.login');
+        // if(Auth::guard('user')){
+        //     return route('edu.login',);
+        // }else{
+        //     return route('edu.login');
+        // }
+
+        if (!$request->expectsJson()) {
+            return route('edu.login', 'admin');
         }
     }
 }

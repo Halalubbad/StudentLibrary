@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::table('departments', function (Blueprint $table) {
             //
-            $table->string('name')->after('id');
             $table->foreignId('faculity_id')->after('name');
-            $table->foreign('faculity_id')->on('faculties')->references('id')->cascadeOnDelete();
+            $table->foreign('faculity_id')->on('faculities')->references('id')->cascadeOnDelete();
         });
     }
 
@@ -30,7 +29,6 @@ return new class extends Migration
     {
         Schema::table('departments', function (Blueprint $table) {
             //
-            $table->dropColumn('name');
             $table->dropForeign('departments_faculity_id_foreign');
             $table->dropColumn('faculity_id');
         });

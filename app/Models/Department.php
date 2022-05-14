@@ -11,7 +11,7 @@ class Department extends Model
 
     public function faculity()
     {
-        return $this->belongsTo(Faculty::class, 'faculity_id', 'id');
+        return $this->belongsTo(Faculity::class, 'faculity_id', 'id');
     }
 
     public function slides()

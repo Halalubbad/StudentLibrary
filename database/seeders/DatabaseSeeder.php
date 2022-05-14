@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'hala',
             'email' => 'hala@email.com',
             'password' => Hash::make('hala'),
-            'university_id' => 1,
-            'image_src' => 'fsgggsdg',
+            'university_id' => 10,
+            'image' => 'fsgggsdg',
         ]);
     }
 }

@@ -16,6 +16,6 @@ class University extends Model
     
     public function faculities()
     {
-        return $this->hasMany(Faculty::class, 'university_id', 'id');
+        return $this->hasMany(Faculity::class, 'university_id', 'id');
     }
 }

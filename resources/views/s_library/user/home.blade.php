@@ -1,6 +1,13 @@
 @extends('s_library.parent')
 
 @section('title', __('library.home'))
+
+@section('home_active', 'active')
+@section('university_active','@@university')
+@section('faculity_active' , '@@faculity')
+@section('slide_active' , '@@slide')
+@section('logout_active' , '@@logout')
+
 @section('content')
 
  <!-- preloader start -->
@@ -8,6 +15,7 @@
   <img src="{{asset('asset/images/preloader.gif')}}" alt="preloader">
 </div>
 <!-- preloader end -->
+
 <!-- hero slider -->
 <section class="hero-section overlay bg-cover" data-background="{{asset('asset/images/banner/banner-1.jpg')}}">
   <div class="container">
@@ -57,21 +65,59 @@
 <!-- /hero slider -->
 
 <!-- about us -->
-<section class="section">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 order-2 order-md-1">
-        <h2 class="section-title">About Educenter</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat </p>
-        <p>cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-        <a href="about.html" class="btn btn-primary-outline">Learn more</a>
-      </div>
-      <div class="col-md-6 order-1 order-md-2 mb-4 mb-md-0">
-        <img class="img-fluid w-100" src="{{asset('asset/images/about/about-us.jpg')}}" alt="about image">
+  <section class="section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 order-2 order-md-1">
+          <h2 class="section-title">{{__('library.about_us')}}</h2>
+          <p>Welcome to our site..<br>
+            On our website we serve university students in the Gaza Strip in all its universities, to speed up their access to their summaries and university books in all faculties and specializations.
+            The student can also add his summaries or the summaries of the subject's records to benefit his friends.
+            Dear student, all you have to do is enter the university to which it belongs, and then choose the college, your specialization. You will find many summaries added by your friends in each specialty separately.
+            <br> wish you success..</p>
+        </div>
+        <div class="col-md-6 order-1 order-md-2 mb-4 mb-md-0">
+          <img class="img-fluid w-100" src="{{asset('asset/images/about/about-us.jpg')}}" alt="about image">
+        </div>
       </div>
     </div>
-  </div>
-</section>
+
+  </section>
+
+  <section class="section-sm bg-primary">
+    <div class="container">
+      <div class="row">
+        <!-- funfacts item -->
+        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+          <div class="text-center">
+            <h2 class="count text-white" data-count="{{$universitiesCount}}">  </h2>
+            <h5 class="text-white">UNIVERSITIES</h5>
+          </div>
+        </div>
+        <!-- funfacts item -->
+        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+          <div class="text-center">
+            <h2 class="count text-white" data-count="{{$faculitiesCount}}">  </h2>
+            <h5 class="text-white">FACULITIES</h5>
+          </div>
+        </div>
+        <!-- funfacts item -->
+        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+          <div class="text-center">
+            <h2 class="count text-white" data-count="{{$usersCount}}">  </h2>
+            <h5 class="text-white">STUDENTS</h5>
+          </div>
+        </div>
+        <!-- funfacts item -->
+        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+          <div class="text-center">
+            <h2 class="count text-white" data-count="{{$slidesCount}}">  </h2>
+            <h5 class="text-white">SLIDIES</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 <!-- /about us -->
 
 <!-- universities -->
@@ -80,10 +126,10 @@
     <div class="row">
       <div class="col-12">
         <div class="d-flex align-items-center section-title justify-content-between">
-          <h2 class="mb-0 text-nowrap mr-3">Universities</h2>
+          <h2 class="mb-0 text-nowrap mr-3"> {{__('library.universities')}} </h2>
           <div class="border-top w-100 border-primary d-none d-sm-block"></div>
           <div>
-            <a href="courses.html" class="btn btn-sm btn-primary-outline ml-sm-3 d-none d-sm-block">see all</a>
+            <a href="{{route('universities.index')}}" class="btn btn-sm btn-primary-outline ml-sm-3 d-none d-sm-block"> {{__('library.see_all')}}  </a>
           </div>
         </div>
       </div>
@@ -91,23 +137,24 @@
     <!-- course list -->
   <div class="row justify-content-center">
   <!-- course item -->
-  <div class="col-lg-4 col-sm-6 mb-5">
-    <div class="card p-0 border-primary rounded-0 hover-shadow">
-      <img class="card-img-top rounded-0" src="{{asset('asset/images/courses/course-1.jpg')}}" alt="course thumb">
-      <div class="card-body">
-        <ul class="list-inline mb-2">
-          <li class="list-inline-item"><i class="ti-calendar mr-1 text-color"></i>02-14-2018</li>
-          <li class="list-inline-item"><a class="text-color" href="#">Humanities</a></li>
-        </ul>
-        <a href="course-single.html">
-          <h4 class="card-title">Photography</h4>
-        </a>
-        <p class="card-text mb-4"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna.</p>
-        <a href="course-single.html" class="btn btn-primary btn-sm">Apply now</a>
+  @foreach ($universities as $university)
+    <div class="col-lg-4 col-sm-6 mb-5">
+      <div class="card p-0 border-primary rounded-0 hover-shadow">
+        <img class="card-img-top rounded-0" src="{{Storage::url($university->image ?? '')}}" alt="course thumb">
+        <div class="card-body">
+          {{-- <ul class="list-inline mb-2">
+            <li class="list-inline-item"><a class="text-color" href="#">  </a></li>
+          </ul> --}}
+          <a href="#">
+            <h4 class="card-title"> {{$university->name}} </h4>
+          </a>
+          {{-- <p class="card-text mb-4"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna.</p> --}}
+          {{-- <a href="course-single.html" class="btn btn-primary btn-sm">Apply now</a> --}}
+        </div>
       </div>
     </div>
-  </div>
+    @endforeach
 
   </div>
   <!-- /course list -->

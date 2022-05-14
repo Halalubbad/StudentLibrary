@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="{{asset('asset/plugins/aos/aos.css')}}">
   <!-- venobox popup -->
   <link rel="stylesheet" href="{{asset('asset/plugins/venobox/venobox.css')}}">
+  {{-- Toster --}}
+  <link rel="stylesheet" href="{{asset('assetAdmin/plugins/toastr/toastr.min.css')}}">
 
   <!-- Main Stylesheet -->
   <link href="{{asset('asset/css/style.css')}}" rel="stylesheet">
@@ -42,6 +44,31 @@
 <!-- header -->
   <header class="fixed-top header">
 
+    
+    <div class="top-header py-2 bg-white">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-4 text-center text-lg-left">
+            <a class="text-color mr-3" href="callto:+443003030266"><strong>CALL</strong> +44 300 303 0266</a>
+          </div>
+          <div class="col-lg-8 text-center text-lg-right">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href=" # " data-toggle="modal" data-target="#signupModal">
+                  {{__('library.change_password')}}
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <?php $user = Auth::user();?>
+                <a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href=" {{route('user.edit',$user->id)}} ">
+                  {{__('library.my_profile')}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- navbar -->
     <div class="navigation w-100">
       <div class="container">
@@ -54,20 +81,23 @@
 
           <div class="collapse navbar-collapse" id="navigation">
             <ul class="navbar-nav ml-auto text-center">
-              <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home</a>
+              <li class="nav-item @yield('home_active') ">
+                <a class="nav-link" href=" {{route('userHome.index')}} ">Home</a>
               </li>
-              <li class="nav-item @@about">
-                <a class="nav-link" href="about.html">About</a>
+              <li class="nav-item @yield('university_active')">
+                <a class="nav-link" href=" {{route('universities.index')}} ">{{__('library.universities')}}</a>
               </li>
-              <li class="nav-item @@courses">
-                <a class="nav-link" href="courses.html">COURSES</a>
+              <li class="nav-item @yield('faculity_active')">
+                <a class="nav-link" href="{{route('faculities.index')}}">{{__('library.faculities')}}</a>
               </li>
-              <li class="nav-item @@contact">
-                <a class="nav-link" href="contact.html">CONTACT</a>
+              <li class="nav-item @yield('slide_active2')">
+                <a class="nav-link" href="{{route('slides.index')}}"> {{__('library.slidies')}} </a>
               </li>
-              <li class="nav-item @@contact">
-                <a class="nav-link" href="{{route('user.logout')}}">LOGOUT</a>
+              <li class="nav-item @yield('slide_active')">
+                <a class="nav-link" href="{{route('slides.create')}}">{{__('library.add_slide')}}</a>
+              </li>
+              <li class="nav-item @yield('logout_active')">
+                <a class="nav-link" href="{{route('edu.logout')}}">LOGOUT</a>
               </li>
             </ul>
           </div>
@@ -76,6 +106,38 @@
     </div>
   </header>
 <!-- /header -->
+<!-- Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content rounded-0 border-0 p-4">
+        <div class="modal-header border-0">
+          <h3>{{__('library.edit_password')}}</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <div class="login">
+              <form class="row" id="create-form">
+                  @csrf
+                  <div class="col-12">
+                      <input type="password" class="form-control mb-3" id="current_password" placeholder="{{__('library.current_password')}}">
+                  </div>
+                  <div class="col-12">
+                      <input type="password" class="form-control mb-3" id="new_password" placeholder="{{__('library.new_password')}}">
+                  </div>
+                  <div class="col-12">
+                      <input type="password" class="form-control mb-3" id="new_password_confirmation" placeholder="{{__('library.new_password_confirmation')}}">
+                  </div>
+                  <div class="col-12">
+                      <button type="button" class="btn btn-primary" onclick="performStore()" >{{__('library.save')}}</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
 
    @yield('content')
 
@@ -183,6 +245,32 @@
 
 <!-- Main Script -->
 <script src="{{asset('asset/js/script.js')}}"></script>
+{{-- Axios --}}
+<script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+{{-- Toster --}}
+<script src="{{asset('assetAdmin/plugins/toastr/toastr.min.js')}}"></script>
+
+<script>
+  function performStore() {
+      // alert('Perform Store');
+      // console.log('performStore');
+      
+      axios.put('/edu/update-password', {
+          password: document.getElementById('current_password').value,
+          new_password: document.getElementById('new_password').value,
+          new_password_confirmation: document.getElementById('new_password_confirmation').value,
+      })
+      .then(function (response) {
+          console.log(response);
+          toastr.success(response.data.message);
+          document.getElementById('create-form').reset();
+      })
+      .catch(function (error) {
+          console.log(error.response);
+          toastr.error(error.response.data.message);
+      });
+  }
+</script>
 
 @yield('scripts')
 
