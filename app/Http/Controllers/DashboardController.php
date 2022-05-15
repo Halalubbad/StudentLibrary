@@ -19,6 +19,7 @@ class DashboardController extends Controller
     public function index()
     {
         // The home page for Admin :-
+        $admins = Admin::all();
         $universities = University::count();
         $faculities = Faculity::count();
         $users = User::count();
@@ -27,7 +28,8 @@ class DashboardController extends Controller
                 ['universities' => $universities, 
                 'faculities' => $faculities, 
                 'users' => $users, 
-                'slides' => $slides]
+                'slides' => $slides,
+                'admins' => $admins]
             );
     }
 

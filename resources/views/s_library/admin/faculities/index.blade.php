@@ -24,7 +24,9 @@
                                         <th>{{ __('library.university') }}</th>
                                         <th>{{ __('library.created_at') }}</th>
                                         <th>{{ __('library.updated_at') }}</th>
-                                        <th>{{ __('library.settings') }}</th>
+                                        @canany(['Update-Faculities', 'Delete-Faculities'])
+                                            <th>{{ __('library.settings') }}</th>
+                                        @endcanany    
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -35,18 +37,29 @@
                                             <td>{{$faculity->university->name}}</td>
                                             <td>{{ $faculity->created_at }}</td>
                                             <td>{{ $faculity->updated_at }}</td>
-                                            <td>
-                                              <div class="btn-group">
-                                                  <a href="{{route('faculities.edit',$faculity->id)}}"
+                                            @canany(['Update-Faculities', 'Delete-Faculities'])
+                                            
+                                                <td>
+                                                    <div class="btn-group">
+
+                                                        @can('Update-Faculities')
+                                                            <a href="{{route('faculities.edit',$faculity->id)}}"
                                                                 class="btn btn-warning">
-                                                    <i class="fas fa-edit"></i>
-                                                  </a>
-                                                  <a href="#" onclick="confirmDelete('{{ $faculity->id }}', this)"
+                                                            <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        @endcan
+
+                                                        @can('Delete-Faculities')
+                                                            <a href="#" onclick="confirmDelete('{{ $faculity->id }}', this)"
                                                                 class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                  </a>
-                                              </div>
-                                            </td>
+                                                            <i class="fas fa-trash"></i>
+                                                            </a>
+                                                        @endcan
+                                                        
+                                                    </div>
+                                                </td> 
+                                            @endcanany
+                                              
                                         </tr>
                                     @endforeach
                                 </tbody>

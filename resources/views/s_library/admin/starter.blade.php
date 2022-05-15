@@ -223,184 +223,251 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
 
                         {{-- ROLES & PERMISSIONS --}}
-                        <li class="nav-header">{{ __('library.roles_permissions') }}</li>
+                        @canany(['Read-Roles', 'Create-Role', 'Read-Permissions'])
+
+                            <li class="nav-header">{{ __('library.roles_permissions') }}</li>
+                            
+                                @canany(['Read-Roles', 'Create-Role'])
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon far fa-envelope"></i>
+                                            <p>
+                                                {{ __('library.roles') }}
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview" style="display: none;">
+                                            
+                                            @can('Read-Roles')
+                                                <li class="nav-item">
+                                                    <a href="{{route('roles.index') }}" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>{{ __('library.index') }}</p>
+                                                    </a>
+                                                </li>
+                                            @endcan
+                                            
+                                            @can('Create-Role')
+                                                <li class="nav-item">
+                                                    <a href="{{route('roles.create') }}" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>{{ __('library.create') }}</p>
+                                                    </a>
+                                                </li>
+                                            @endcan
+                                            
+                                        </ul>
+                                    </li>
+                                @endcanany
+                                
+                                @can('Read-Permissions')
+
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon far fa-envelope"></i>
+                                            <p>
+                                                {{ __('library.permissions') }}
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview" style="display: none;">
+
+                                            <li class="nav-item">
+                                                <a href="{{route('permissions.index') }}" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>{{ __('library.index') }}</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                @endcan
+                        @endcanany
                         
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-envelope"></i>
-                                <p>
-                                    {{ __('library.roles') }}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
+                        
+                        @canany(['Read-Admin', 'Create-Admin','Read-User'])
+                            <li class="nav-header">{{ __('library.hr') }}</li>
 
+                            {{-- ADMIN: --}}
+                            
+                            @canany(['Read-Admin', 'Create-Admin'])
                                 <li class="nav-item">
-                                    <a href="{{route('roles.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.index') }}</p>
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon far fa-user"></i>
+                                        <p>
+                                            {{ __('library.admins') }}
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
                                     </a>
-                                </li>
+                                    <ul class="nav nav-treeview" style="display: none;">
+
+                                        @can('Read-Admin')
+
+                                            <li class="nav-item">
+                                                <a href="{{route('admins.index') }}" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>{{ __('library.index') }}</p>
+                                                </a>
+                                            </li>
+
+                                        @endcan
+
+                                        @can('Create-Admin')
+
+                                            <li class="nav-item">
+                                                <a href="{{route('admins.create') }}" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>{{ __('library.create') }}</p>
+                                                </a>
+                                            </li>
+
+                                        @endcan
+                                        
+                                    </ul>
+                                </li>           
+                            @endcanany
+
+                            
+
+                            {{-- USER: --}}
+
+                            @canany(['Read-User'])
                                 <li class="nav-item">
-                                    <a href="{{route('roles.create') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.create') }}</p>
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon far fa-user"></i>
+                                        <p>
+                                            {{ __('library.users') }}
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
                                     </a>
+                                    <ul class="nav nav-treeview" style="display: none;">
+                                        
+                                        @can('Read-User')
+                                            <li class="nav-item">
+                                                <a href="{{route('user.index') }}" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>{{ __('library.index') }}</p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        
+                                    </ul>
                                 </li>
-                            </ul>
-                        </li>
+                            @endcanany
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-envelope"></i>
-                                <p>
-                                    {{ __('library.permissions') }}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
+                        @endcanany
 
-                                <li class="nav-item">
-                                    <a href="{{route('permissions.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.index') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-header">{{ __('library.hr') }}</li>
-
-                        {{-- ADMIN: --}}
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-user"></i>
-                                <p>
-                                    {{ __('library.admins') }}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
-
-                                <li class="nav-item">
-                                    <a href="{{route('admins.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.index') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('admins.create') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.create') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        {{-- USER: --}}
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-user"></i>
-                                <p>
-                                    {{ __('library.users') }}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
-
-                                <li class="nav-item">
-                                    <a href="{{route('user.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.index') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
+                            
                         <li class="nav-header">{{ __('library.edu') }}</li>
 
                         {{-- UNIVERSITY: --}}
+                        @canany(['Read-University', 'Create-University'])
+                            
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-envelope"></i>
+                                    <p>
+                                        {{ __('library.universities') }}
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-envelope"></i>
-                                <p>
-                                    {{ __('library.universities') }}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
+                                    @can('Read-University')
+                                        <li class="nav-item">
+                                            <a href="{{route('universities.index') }}" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>{{ __('library.index') }}</p>
+                                            </a>
+                                        </li>
+                                    @endcan
 
-                                <li class="nav-item">
-                                    <a href="{{route('universities.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.index') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('universities.create') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.create') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                                    @can('Create-University')
+                                        <li class="nav-item">
+                                            <a href="{{route('universities.create') }}" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>{{ __('library.create') }}</p>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                      
+                                </ul>
+                            </li>
+
+                        @endcanany
 
                         {{-- FACULITIES: --}}
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-envelope"></i>
-                                <p>
-                                    {{ __('library.faculities') }}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
+                        @canany(['Read-Faculities', 'Create-Faculities'])
 
-                                <li class="nav-item">
-                                    <a href="{{route('faculities.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.index') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('faculities.create') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.create') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-envelope"></i>
+                                    <p>
+                                        {{ __('library.faculities') }}
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    @can('Read-Faculities')
+                                        <li class="nav-item">
+                                            <a href="{{route('faculities.index') }}" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>{{ __('library.index') }}</p>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                    
+                                    @can('Create-Faculities')
+                                        <li class="nav-item">
+                                            <a href="{{route('faculities.create') }}" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>{{ __('library.create') }}</p>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                    
+                                </ul>
+                            </li>
+
+                        @endcanany
 
                         {{-- DEPARTMENT: --}}
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-envelope"></i>
-                                <p>
-                                    {{ __('library.departments') }}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
+                        @canany(['Read-Departments', 'Create-Departments'])
 
-                                <li class="nav-item">
-                                    <a href="{{route('departments.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.index') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('departments.create') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('library.create') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-envelope"></i>
+                                    <p>
+                                        {{ __('library.departments') }}
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+
+                                @can('Read-Departments')
+                                    <li class="nav-item">
+                                        <a href="{{route('departments.index') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{{ __('library.index') }}</p>
+                                        </a>
+                                    </li>
+                                @endcan    
+                                    
+                                @can('Create-Departments')
+                                    <li class="nav-item">
+                                        <a href="{{route('departments.create') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{{ __('library.create') }}</p>
+                                        </a>
+                                    </li>
+                                @endcan
+                                    
+                                </ul>
+                            </li>
+
+                        @endcanany
                         
                         <li class="nav-header">{{ __('library.settings') }}</li>
                         

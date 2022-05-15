@@ -26,10 +26,12 @@
                                     <th style="width: 10px">#</th>
                                     <th>{{__('library.name')}}</th>
                                     <th>{{__('library.email')}}</th>
-                                    {{-- <th>{{__('library.role')}}</th> --}}
+                                    <th>{{__('library.role')}}</th>
                                     <th>{{__('library.created_at')}}</th>
                                     <th>{{__('library.updated_at')}}</th>
-                                    <th style="width: 40px">{{__('library.settings')}}</th>
+                                    @canany(['Update-Admin', 'Delete-Admin'])
+                                        <th style="width: 40px">{{__('library.settings')}}</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,20 +40,31 @@
                                     <td>{{$admin->id}}</td>
                                     <td>{{$admin->name}}</td>
                                     <td>{{$admin->email}}</td>
-                                    {{-- <td>{{$admin->roles[0]->name}}</td> --}}
+                                    <td>{{$admin->roles[0]->name}}</td>
                                     <td>{{$admin->created_at}}</td>
                                     <td>{{$admin->updated_at}}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a href="{{route('admins.edit',$admin->id)}}" class="btn btn-warning">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="#" onclick="confirmDelete('{{$admin->id}}', this)"
-                                                class="btn btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </div>
-                                    </td>
+                                    @canany(['Update-Admin', 'Delete-Admin'])
+                                        
+                                        <td>
+                                            <div class="btn-group">
+                                                
+                                                @can('Update-Admin')
+                                                    <a href="{{route('admins.edit',$admin->id)}}" class="btn btn-warning">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>  
+                                                @endcan
+                                                
+                                                @can('Delete-Admin')
+                                                    <a href="#" onclick="confirmDelete('{{$admin->id}}', this)"
+                                                        class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                @endcan
+                                                
+                                            </div>
+                                        </td>
+
+                                    @endcanany
                                 </tr>
                                 @endforeach
                             </tbody>

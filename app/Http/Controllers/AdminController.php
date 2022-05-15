@@ -25,7 +25,7 @@ class AdminController extends Controller
         //
         // dd('index');
 
-        $admins = Admin::with('roles')->get();
+        $admins = Admin::all();
         // dd($admins[0]->roles[0]->name);
         return response()->view('s_library.admin.admins.index',['admins'=>$admins]);
     }

@@ -2,6 +2,17 @@
 @section('title', __('library.home'))
 
 @section('content')
+
+<?php $authAdminRole = Auth::user('admin')->roles[0]->name ?>
+{{-- {{$authAdminRole}} --}}
+@foreach ($admins as $admin)
+  @if ($admin->roles[0]->name == $authAdminRole)
+    <div class="container">
+      <p class="text-blue"> Admin :  {{$authAdminRole}} </p>
+    </div>
+  @endif
+@endforeach
+
 <section class="section-sm bg-primary">
     <div class="container">
       <div class="row">
