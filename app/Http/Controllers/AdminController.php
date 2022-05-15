@@ -15,6 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Admin::class, 'admin');
+    }
+    
     /**
      * Display a listing of the resource.
      *

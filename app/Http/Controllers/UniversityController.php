@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Faculity;
 use App\Models\University;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon as SupportCarbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class UniversityController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(University::class, 'university');
+    }
+
     /**
      * Display a listing of the resource.
      *
