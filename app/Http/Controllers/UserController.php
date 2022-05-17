@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -23,9 +25,46 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        $users = User::with('university')->get();
+        $users = User::with('university')->withCount('permissions')->get();
         return Response()->view('s_library.admin.users.index',['users' => $users]);
         
+    }
+
+    public function editUserPermissions(Request $request, User $user)
+    {
+        $permissions = Permission::where('guard_name', '=', 'user')->get();
+        $userPermissions = $user->permissions;
+        foreach ($permissions as $permission) {
+            $permission->setAttribute('assigned', false);
+            foreach ($userPermissions as $userPermission) {
+                if ($permission->id == $userPermission->id) {
+                    $permission->setAttribute('assigned', true);
+                }
+            }
+        }
+
+        return response()->view('s_library.admin.users.user-permissions', ['permissions' => $permissions, 'user' => $user]);
+    }
+
+    public function updateUserPermissions(Request $request, User $user)
+    {
+        $validator = Validator($request->all(), [
+            'permission_id' => 'required|numeric|exists:permissions,id',
+        ]);
+        if (!$validator->fails()) {
+            $permission = Permission::findOrFail($request->input('permission_id'));
+            if ($user->hasPermissionTo($permission)) {
+                $user->revokePermissionTo($permission);
+            } else {
+                $user->givePermissionTo($permission);
+            }
+            return response()->json(['message' => 'Permission updated successfully'], Response::HTTP_OK);
+        } else {
+            return response()->json(
+                ['message' => $validator->getMessageBag()->first()],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
     }
 
     /**
@@ -39,11 +78,12 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+
     public function store(Request $request)
     {
         // register
@@ -59,7 +99,7 @@ class UserController extends Controller
             $user = new User();
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $user->password = Hash::make('password');
+            $user->password = Hash::make('password'); // Hash::make($request->input('password'))
             $user->university_id = $request->input('university_id');
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -69,11 +109,8 @@ class UserController extends Controller
                 $user->image = $imagePath;
             }
             $isSaved = $user->save();
-            // if ($isSaved) {
-            //     Mail::to($user)->send(new UserWelcomeEmail($user));
-            //     $admin = Admin::first();
-            //     $admin->notify(new NewUserNotification($user));
-            // }
+            $userRole = Role::where('guard_name','=','user')->get();
+            // if ($isSaved) $user->assignRole($userRole->id);
             return response()->json([
                 'message' => $isSaved ? 'Saved successfully' : 'Save failed!'
             ], $isSaved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);

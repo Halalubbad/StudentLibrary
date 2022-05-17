@@ -84,6 +84,7 @@ Route::prefix('edu/admin')->middleware(['auth:admin' , 'verified'])->group(funct
 
     Route::get('users/{user}/permissions/edit', [UserController::class, 'editUserPermissions'])->name('user.edit-permissions');
     Route::put('users/{user}/permissions/edit', [UserController::class, 'updateUserPermissions']);
+    
 });
 
 //user

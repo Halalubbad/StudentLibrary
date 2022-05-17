@@ -52,5 +52,10 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'Read-Departments', 'guard_name' => 'admin']);
         Permission::create(['name' => 'Update-Departments', 'guard_name' => 'admin']);
         Permission::create(['name' => 'Delete-Departments', 'guard_name' => 'admin']);
+
+        //User
+        Permission::create(['name' => 'Read-University', 'guard_name' => 'user']);
+        Permission::create(['name' => 'Read-Faculities', 'guard_name' => 'user']);
+        Permission::create(['name' => 'Read-Departments', 'guard_name' => 'user']);
     }
 }

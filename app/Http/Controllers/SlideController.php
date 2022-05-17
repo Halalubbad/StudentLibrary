@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 class SlideController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->authorizeResource(Slide::class, 'slide');
-    }
+    // public function __construct()
+    // {
+    //     $this->authorizeResource(Slide::class, 'slide');
+    // }
 
     /**
      * Display a listing of the resource.

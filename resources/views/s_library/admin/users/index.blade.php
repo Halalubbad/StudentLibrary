@@ -24,6 +24,7 @@
                                         <th>{{ __('library.name') }}</th>
                                         <th>{{ __('library.email') }}</th>
                                         <th>{{ __('library.university') }}</th>
+                                        <th>{{ __('library.permissions') }}</th>
                                         <th>{{ __('library.created_at') }}</th>
                                         <th>{{ __('library.updated_at') }}</th>
                                         <th>{{ __('library.settings') }}</th>
@@ -37,14 +38,24 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{$user->email}}</td>
                                             <td>{{$user->university->name}}</td>
+                                            <td>
+                                                <a href="{{route('user.edit-permissions',$user->id)}}"
+                                                    class="btn btn-app bg-info">
+                                                    <i class="fas fa-envelope"></i> {{$user->permissions_count}}
+                                                </a>
+                                            </td>
                                             <td>{{ $user->created_at }}</td>
                                             <td>{{ $user->updated_at }}</td>
                                             <td>
                                               <div class="btn-group">
-                                                  <a href="#" onclick="confirmDelete('{{ $user->id }}', this)"
-                                                                class="btn btn-danger">
+                                                {{-- <a href="{{route('user.giveRoleIndex',$user->id)}}"
+                                                    class="btn btn-danger">
                                                     <i class="fas fa-trash"></i>
-                                                  </a>
+                                                </a> --}}
+                                                <a href="#" onclick="confirmDelete('{{ $user->id }}', this)"
+                                                    class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                               </div>
                                             </td>
                                         </tr>
