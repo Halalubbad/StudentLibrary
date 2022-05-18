@@ -13,36 +13,36 @@ class FaculitityPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(Admin $admin)
+    public function viewAny($user)
     {
         //
-        return $admin->hasPermissionTo('Read-Faculities')
+        return $user->hasPermissionTo('Read-Faculities')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Faculitity  $faculitity
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(Admin $admin, Faculity $faculitity)
+    public function view( $user, Faculity $faculitity)
     {
         //
-        return $admin->hasPermissionTo('Read-Faculities')
+        return $user->hasPermissionTo('Read-Faculities')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(Admin $admin)
@@ -50,13 +50,13 @@ class FaculitityPolicy
         //
         return $admin->hasPermissionTo('Create-Faculities')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Faculitity  $faculitity
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -65,13 +65,13 @@ class FaculitityPolicy
         //
         return $admin->id == $admin->id && $admin->hasPermissionTo('Update-Faculities')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Faculitity  $faculitity
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -80,13 +80,13 @@ class FaculitityPolicy
         //
         return $admin->hasRole('Super-Admin') && $admin->hasPermissionTo('Delete-Faculities')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Faculitity  $faculitity
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -98,7 +98,7 @@ class FaculitityPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Faculitity  $faculitity
      * @return \Illuminate\Auth\Access\Response|bool
      */

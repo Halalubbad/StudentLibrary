@@ -23,6 +23,13 @@
   </div>
 </section>
 
+{{-- <div class="input-group rounded">
+  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+  <span class="input-group-text border-0" id="search-addon">
+    <i class="fas fa-search"></i>
+  </span>
+</div> --}}
+
 <section class="section">
     <div class="container">
       <!-- course list -->
@@ -41,12 +48,14 @@
               <h6 class="card-title"> {{__('library.teacher')}} : {{$slide->teacher}} </h6>
               <h6 class="card-title"> {{__('library.owner_student')}} : {{$slide->user->name}} </h6>
               <a href="{{Storage::url($slide->slide_file ?? '')}}"> {{__('library.slide_file')}} </a>
-              
-              {{-- @foreach ($users as $user)
-                @if ($user->id = $slide->user_id) {{ $user->id }} --}}
+              <?php $authUser = Auth::user('user')->id ?>
+              {{-- {{$authUser}}  {{ $user->id }} --}}
+               {{-- @foreach ($users as $user) --}}
+                @if ($authUser = $slide->user_id) 
+                {{-- {{$authUser}} --}}
                   <a href="{{route('slides.edit',$slide->id)}}" class="btn btn-primary btn-sm"> {{__('library.edit_slides')}} </a>
-                {{-- @endif
-              @endforeach --}}
+                @endif
+              {{-- @endforeach --}}
               
               
               <p class="card-text mb-4"></p>

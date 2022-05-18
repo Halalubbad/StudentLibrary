@@ -16,33 +16,33 @@ class UniversityPolicy
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(Admin $admin)
+    public function viewAny( $user)
     {
         //
-        return $admin->hasPermissionTo('Read-University')
+        return $user->hasPermissionTo('Read-University')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\University  $university
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(Admin $admin, University $university)
+    public function view( $user, University $university)
     {
         //
-        return $admin->hasPermissionTo('Read-University')
+        return $user->hasPermissionTo('Read-University')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(Admin $admin)
@@ -50,13 +50,13 @@ class UniversityPolicy
         //
         return $admin->hasPermissionTo('Create-University')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\University  $university
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -65,13 +65,13 @@ class UniversityPolicy
         //
         return $admin->id == $admin->id && $admin->hasPermissionTo('Update-University')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\University  $university
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -80,13 +80,13 @@ class UniversityPolicy
         //
         return $admin->hasRole('Super-Admin') && $admin->hasPermissionTo('Delete-University')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\University  $university
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -98,7 +98,7 @@ class UniversityPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\University  $university
      * @return \Illuminate\Auth\Access\Response|bool
      */

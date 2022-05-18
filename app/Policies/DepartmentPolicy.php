@@ -13,36 +13,36 @@ class DepartmentPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(Admin $admin)
+    public function viewAny($user)
     {
         //
-        return $admin->hasPermissionTo('Read-Departments')
+        return $user->hasPermissionTo('Read-Departments')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(Admin $admin, Department $department)
+    public function view( $user, Department $department)
     {
         //
-        return $admin->hasPermissionTo('Read-Departments')
+        return $user->hasPermissionTo('Read-Departments')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(Admin $admin)
@@ -50,13 +50,13 @@ class DepartmentPolicy
         //
         return $admin->hasPermissionTo('Create-Departments')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -65,13 +65,13 @@ class DepartmentPolicy
         //
         return $admin->id == $admin->id && $admin->hasPermissionTo('Update-Departments')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -80,13 +80,13 @@ class DepartmentPolicy
         //
         return $admin->hasRole('Super-Admin') && $admin->hasPermissionTo('Delete-Departments')
             ? $this->allow()
-            : $this->deny();
+            : $this->deny('YOU DONT HAVE ANY PERMISSIONS FOR THIS ACTION');
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -98,7 +98,7 @@ class DepartmentPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin $admin
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Auth\Access\Response|bool
      */
